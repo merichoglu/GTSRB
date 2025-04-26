@@ -1,5 +1,3 @@
-# scripts/generate_all_csvs.py
-
 import logging
 from pathlib import Path
 
