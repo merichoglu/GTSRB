@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, Tuple
 
 import pandas as pd
 from PIL import Image
+from torch import Tensor
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
@@ -11,7 +12,7 @@ class GTSRB(Dataset):
     def __init__(
         self,
         csv_path: Path,
-        transform: Optional[Callable] = None,
+        transform: Optional[Callable[[Image.Image], Tensor]] = None,
     ) -> None:
         self.data = pd.read_csv(csv_path)
         self.transform = transform
@@ -19,13 +20,15 @@ class GTSRB(Dataset):
     def __len__(self) -> int:
         return len(self.data)
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx: int) -> Tuple[Tensor, int]:
         img_path = Path(self.data.iloc[idx]["Filename"])
         label = int(self.data.iloc[idx]["ClassId"])
         image = Image.open(img_path).convert("RGB")
 
-        if self.transform:
+        if self.transform is not None:
             image = self.transform(image)
+        else:
+            image = transforms.ToTensor()(image)
 
         return image, label
 

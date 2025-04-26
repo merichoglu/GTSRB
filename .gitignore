@@ -11,6 +11,7 @@ __pycache__/
 # Dataset (don't track raw or processed data)
 data/raw/
 data/processed/
+models/
 
 .ropeproject
 .pre-commit-config-yaml

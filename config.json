@@ -1,0 +1,18 @@
+{
+    "model": {
+        "num_classes": 43,
+        "backbone": "resnet18",
+        "weights": "DEFAULT"
+    },
+    "training": {
+        "epochs": 10,
+        "batch_size": 64,
+        "learning_rate": 0.0001,
+        "device": "auto",
+        "save_path": "models/resnet18.pth"
+    },
+    "dataset": {
+        "train_csv": "data/processed/train.csv",
+        "test_csv": "data/processed/test.csv"
+    }
+}
