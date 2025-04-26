@@ -1,8 +1,9 @@
 # scripts/generate_all_csvs.py
 
-from pathlib import Path
-import pandas as pd
 import logging
+from pathlib import Path
+
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
