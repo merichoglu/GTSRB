@@ -53,7 +53,7 @@ A Streamlit web app is provided to test the trained model on custom images throu
 ### Launch the app:
 
 ```bash
-streamlit run streamlit_app.py
+streamlit run app.py
 ```
 
 Then open `http://localhost:8501` in your browser.
@@ -74,9 +74,3 @@ Then open `http://localhost:8501` in your browser.
 - Model weights are saved to `models/resnet18.pth` after training
 - All training/evaluation logs are written to the `logs/` directory
 - The dataset must be placed in `data/raw/` and preprocessed before training
-
----
-
-## License
-
-MIT License
