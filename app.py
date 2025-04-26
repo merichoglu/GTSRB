@@ -1,3 +1,8 @@
+import sys
+
+if "torch.__path__" in sys.modules:
+    del sys.modules["torch.__path__"]
+
 import json
 from pathlib import Path
 from typing import Callable, cast
@@ -65,10 +70,18 @@ def predict(
 
 def main():
     st.set_page_config(page_title="Traffic Sign Classifier", page_icon="🚦")
-    st.title("Traffic Sign Classifier")
-    st.markdown("Upload an image of a traffic sign and see the top-3 predictions.")
+    st.markdown(
+        "<h1 style='text-align: center;'>Traffic Sign Classifier</h1>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "<p style='text-align: center; color: gray;'>Upload a traffic sign image and see the top-3 predictions</p>",
+        unsafe_allow_html=True,
+    )
 
-    uploaded_file = st.file_uploader("Choose an image", type=["png", "jpg", "jpeg"])
+    uploaded_file = st.file_uploader(
+        "Upload", type=["png", "jpg", "jpeg"], label_visibility="collapsed"
+    )
 
     if uploaded_file is not None:
         image = Image.open(uploaded_file).convert("RGB")
@@ -76,21 +89,43 @@ def main():
         config = load_config()
         model = load_model(config)
         label_map = get_label_map()
-        left_col, right_col = st.columns(2)
+
+        # 2-column layout, image narrower
+        left_col, right_col = st.columns([0.4, 0.6])
 
         with left_col:
             st.image(image, caption="Uploaded Image", use_container_width=True)
 
         with right_col:
-            st.subheader("Top Predictions")
+            st.markdown("### Top 3 Predictions")
             results = predict(image, model, label_map)
 
             for i, (label, confidence, class_id) in enumerate(results):
-                st.markdown(f"**{i+1}. {label}** (Class ID: {class_id})")
                 confidence_percent = confidence * 100
-                st.progress(confidence)  # bar
-                st.markdown(f"Confidence: `{confidence_percent:.2f}%`")
-                st.markdown("---")
+                if i == 0:
+                    st.markdown(
+                        f"""
+                        <div style='
+                            padding: 12px;
+                            background-color: rgba(0, 123, 255, 0.15);
+                            border-left: 4px solid #007bff;
+                            border-radius: 6px;
+                            color: #ffffff;
+                            font-weight: 500;
+                        '>
+                            <div><strong>{i+1}. {label}</strong></div>
+                            <div style='margin-top: 4px;'>Class ID: <code style="color:#00ffaa;">{class_id}</code></div>
+                            <div>Confidence: <span style="color:#00ffaa;">{confidence_percent:.2f}%</span></div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.markdown(
+                        f"**{i+1}. {label}** (Class ID: {class_id})  \n"
+                        f"Confidence: `{confidence_percent:.2f}%`"
+                    )
+                st.progress(confidence)
 
 
 if __name__ == "__main__":
