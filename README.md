@@ -32,9 +32,9 @@ A deep learning model for classifying German traffic signs using the GTSRB datas
 
 ### ResNet18
 
-- **Test Accuracy:** 96.74%
-- **Macro F1-score:** 0.9223
-- **Weighted F1-score:** 0.9672
+- **Test Accuracy:** 94.99%
+- **Macro F1-score:** 0.9253
+- **Weighted F1-score:** 0.9497
 - _Perfect precision & recall on class:_ **32**
 - _Lower performance on:_ **19**, **20**, **24**, **36**, **37**
 
