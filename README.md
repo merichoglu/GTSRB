@@ -1,29 +1,50 @@
 # Traffic Sign Classifier
 
-A deep learning model for classifying German traffic signs using the GTSRB dataset. Trained on 43 classes with a fine-tuned ResNet18 architecture using PyTorch.
+A deep learning model for classifying German traffic signs using the GTSRB dataset. Implements both a fine‑tuned ResNet18 and a YOLOv8‑based classifier.
 
 ---
 
 ## Training Configuration
 
-- Architecture: ResNet18 (pretrained on ImageNet)
-- Epochs: 10
-- Batch size: 64
-- Learning rate: 0.0001
-- Optimizer: Adam
-- Loss: CrossEntropyLoss
-- Input size: 32x32 RGB
-- Augmentations: Resize, random rotation, color jitter
+### ResNet18
+
+- **Pretrained weights:** ImageNet (`IMAGENET1K_V1`)
+- **Epochs:** 10
+- **Batch size:** 32
+- **Learning rate:** 0.001
+- **Optimizer:** Adam
+- **Loss:** CrossEntropyLoss
+- **Input size:** 32×32 RGB (via `utils.data_loader` transforms)
+
+### YOLOv8 Classification (YOLOv8n‑cls)
+
+- **Pretrained weights:** `yolov8n-cls.pt`
+- **Epochs:** 10
+- **Batch size:** 32
+- **Initial learning rate:** 0.01
+- **Optimizer & loss:** Built-in YOLOv8 classification head
+- **Input size:** 224×224
+- **Augmentations:** mosaic, mixup, cutmix, random flips (configurable)
 
 ---
 
 ## Evaluation Results
 
-- Final Test Accuracy: **92.91%**
-- Macro F1-score: **0.8948**
-- Weighted F1-score: **0.9283**
-- Perfect class-wise precision and recall on labels: 14, 16, 32
-- Lower recall observed in rare classes: 0, 19, 21, 27
+### ResNet18
+
+- **Test Accuracy:** 96.74%
+- **Macro F1-score:** 0.9223
+- **Weighted F1-score:** 0.9672
+- _Perfect precision & recall on class:_ **32**
+- _Lower performance on:_ **19**, **20**, **24**, **36**, **37**
+
+### YOLOv8 Classification
+
+- **Test Accuracy:** 96.74%
+- **Macro F1-score:** 0.9223
+- **Weighted F1-score:** 0.9672
+- **Perfect on classes:** 0, 9, 10, 14, 16, 17, 24, 27, 28, 29, 32, 41
+- **Lower recall on:** 20 (54.44%), 37 (13.33%), 36 (50.83%)
 
 ---
 
@@ -48,7 +69,7 @@ pip install -r requirements.txt
 
 ## Streamlit Inference UI
 
-A Streamlit web app is provided to test the trained model on custom images through a browser interface.
+A Streamlit web app is provided to test trained models on custom images through a browser interface.
 
 ### Launch the app:
 
@@ -65,12 +86,13 @@ Then open `http://localhost:8501` in your browser.
 - Each prediction includes:
   - Human-readable label
   - Class ID
-  - Confidence as percentage and progress bar
+  - Confidence (percentage + progress bar)
 
 ---
 
 ## Notes
 
-- Model weights are saved to `models/resnet18.pth` after training
-- All training/evaluation logs are written to the `logs/` directory
-- The dataset must be placed in `data/raw/` and preprocessed before training
+- ResNet18 weights saved to `models/resnet18.pth` after training
+- YOLOv8 best checkpoint copied to `models/yolov8_best.pt`
+- All training/evaluation logs are in the `logs/` directory
+- Dataset must be placed in `data/raw/` and preprocessed via `utils/data_loader` before training

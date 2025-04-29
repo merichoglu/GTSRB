@@ -1,18 +1,28 @@
 {
-    "model": {
-        "num_classes": 43,
-        "backbone": "resnet18",
-        "weights": "DEFAULT"
-    },
-    "training": {
-        "epochs": 10,
-        "batch_size": 64,
-        "learning_rate": 0.0001,
+    "common": {
         "device": "auto",
-        "save_path": "models/resnet18.pth"
+        "batch_size": 32,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "imgsz": 224
     },
     "dataset": {
         "train_csv": "data/processed/train.csv",
-        "test_csv": "data/processed/test.csv"
+        "test_csv": "data/processed/test.csv",
+        "yolo_data": "data/traffic_signs"
+    },
+    "resnet": {
+        "enabled": true,
+        "architecture": "resnet18",
+        "pretrained_weights": "IMAGENET1K_V1",
+        "num_classes": 43,
+        "save_path": "models/resnet18.pth"
+    },
+    "yolo": {
+        "enabled": true,
+        "type": "yolov8_cls",
+        "pretrained_weights": "models/yolov8n-cls.pt",
+        "finetuned_weights": "models/yolov8_best.pt",
+        "num_classes": 43
     }
 }

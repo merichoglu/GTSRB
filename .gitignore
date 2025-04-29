@@ -12,6 +12,7 @@ __pycache__/
 data/raw/
 data/processed/
 models/
+data/traffic_signs/
 
 .ropeproject
 .pre-commit-config-yaml

@@ -1,0 +1,3 @@
+2025-04-29 16:18:37,464 [INFO] Starting YOLOv8 classification training…
+2025-04-29 16:53:26,312 [INFO] [+] YOLOv8 classification training complete
+2025-04-29 16:53:26,316 [INFO] [+] Copied YOLOv8 best.pt to models/yolov8_best.pt
